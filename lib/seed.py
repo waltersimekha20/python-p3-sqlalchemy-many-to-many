@@ -6,12 +6,16 @@ import random
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import Game, Review
+from models import Game, Review, User, Table
 
 if __name__ == '__main__':
     engine = create_engine('sqlite:///many_to_many.db')
     Session = sessionmaker(bind=engine)
     session = Session()
+
+    # Create tables
+    Game.__table__.create(bind=engine, checkfirst=True)
+    Review.__table__.create(bind=engine, checkfirst=True)
 
     session.query(Game).delete()
     session.query(Review).delete()

@@ -13,6 +13,12 @@ if __name__ == '__main__':
     Session = sessionmaker(bind=engine)
     session = Session()
 
+    # Create tables
+    # Game.__table__.create(bind=engine, checkfirst=True)
+    # Review.__table__.create(bind=engine, checkfirst=True)
+    # User.__table__.create(bind=engine, checkfirst=True)
+    
+
     session.query(Game).delete()
     session.query(Review).delete()
     session.query(User).delete()
@@ -61,14 +67,13 @@ if __name__ == '__main__':
                 user.games.append(game)
                 session.add(user)
                 session.commit()
-            
+                
             review = Review(
                 score=random.randint(0, 10),
                 comment=fake.sentence(),
                 game_id=game.id,
                 user_id=user.id,
             )
-
             reviews.append(review)
 
     session.bulk_save_objects(reviews)
